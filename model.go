@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	"github.com/0xAX/notificator"
+)
 
 // Interval specifies whether work or break is the active interval
 type Interval int
@@ -63,6 +67,7 @@ type Pomodoro struct {
 	tWork, tBreak time.Duration
 	timer         *SecondsTimer
 	active        Interval
+	notify        *notificator.Notificator
 }
 
 // NewPomodoro returns a new instance of a Pomodoro timer
@@ -74,6 +79,9 @@ func NewPomodoro(tWork, tBreak int64) *Pomodoro {
 	p.timer = NewSecondsTimer(p.tWork)
 	p.timer.Stop()
 	p.active = work
+	p.notify = notificator.New(notificator.Options{
+		DefaultIcon: "icon/pomodoro.png",
+		AppName:     "Pomodoro Timer"})
 	return p
 }
 

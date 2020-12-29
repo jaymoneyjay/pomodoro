@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/0xAX/notificator"
 	"github.com/nsf/termbox-go"
 )
 
@@ -51,8 +52,10 @@ func main() {
 			}
 		case <-p.timer.C:
 			if p.active == work {
+				p.notify.Push("Stop Work", "It's time to start your break", "icon/break.jpg", notificator.UR_CRITICAL)
 				p.startBreak()
 			} else if p.active == br {
+				p.notify.Push("Start Work", "It's time to start working again", "icon/work.png", notificator.UR_CRITICAL)
 				p.startWork()
 			}
 
