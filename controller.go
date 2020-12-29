@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/0xAX/notificator"
@@ -9,8 +8,8 @@ import (
 )
 
 // Default values
-const tWork = 5
-const tBreak = 5
+const tWork = 1500
+const tBreak = 300
 
 const animationSpeed = 100 * time.Millisecond
 
@@ -42,12 +41,10 @@ func main() {
 				switch {
 				case ev.Ch == 'q':
 					return
-				case ev.Ch == 'n':
+				case ev.Ch == 'w':
 					p.startWork()
 				case ev.Ch == 'b':
 					p.startBreak()
-				default:
-					fmt.Printf("Event %d received.", ev)
 				}
 			}
 		case <-p.timer.C:

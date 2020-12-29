@@ -16,10 +16,9 @@ const height = 30
 
 // Text
 var instructions = []string{
-	"n: start timer",
+	"w: start work",
 	"b: start break",
 	"q: quit",
-	"s: settings",
 }
 
 const title = "POMODORO TIMER"
