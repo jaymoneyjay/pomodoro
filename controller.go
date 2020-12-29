@@ -7,12 +7,19 @@ import (
 	"github.com/nsf/termbox-go"
 )
 
+// Default values
+const tWork = 5
+const tBreak = 5
+
+const animationSpeed = 100 * time.Millisecond
+
 func main() {
 
 	err := termbox.Init()
 	if err != nil {
 		panic(err)
 	}
+	defer termbox.Close()
 
 	eventQueue := make(chan termbox.Event)
 
@@ -23,20 +30,34 @@ func main() {
 		}
 	}()
 
-	render()
+	p := NewPomodoro(tWork, tBreak)
+
+	render(p)
 
 	for {
 		select {
 		case ev := <-eventQueue:
-			switch {
-			case ev.Ch == 'q':
-				return
-			default:
-				fmt.Printf("Event %d received.", ev)
+			if ev.Type == termbox.EventKey {
+				switch {
+				case ev.Ch == 'q':
+					return
+				case ev.Ch == 'n':
+					p.startWork()
+				case ev.Ch == 'b':
+					p.startBreak()
+				default:
+					fmt.Printf("Event %d received.", ev)
+				}
+			}
+		case <-p.timer.C:
+			if p.active == work {
+				p.startBreak()
+			} else if p.active == br {
+				p.startWork()
 			}
 
 		default:
-			render()
+			render(p)
 			time.Sleep(animationSpeed)
 		}
 	}
