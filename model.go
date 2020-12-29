@@ -75,7 +75,7 @@ type Pomodoro struct {
 func NewPomodoro(tWork, tBreak int64) *Pomodoro {
 	p := new(Pomodoro)
 	p.tBreak = time.Duration(tBreak) * time.Second
-	p.tWork = time.Duration(tBreak) * time.Second
+	p.tWork = time.Duration(tWork) * time.Second
 	p.timer = NewSecondsTimer(p.tWork)
 	p.timer.Stop()
 	p.active = work
